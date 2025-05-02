@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>AWS S3 Configuration</label>
+    <protected>false</protected>
+    <values>
+        <field>Access_Key__c</field>
+        <value xsi:type="xsd:string">Enter your Access Key</value>
+    </values>
+    <values>
+        <field>Bucket_Name__c</field>
+        <value xsi:type="xsd:string">Enter your Bucket name</value>
+    </values>
+    <values>
+        <field>Region__c</field>
+        <value xsi:type="xsd:string">Enter your Region</value>
+    </values>
+    <values>
+        <field>Secret_Key__c</field>
+        <value xsi:type="xsd:string">Enter your Secret Key</value>
+    </values>
+</CustomMetadata>
