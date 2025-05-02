@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>Region__c</field>
-        <value xsi:type="xsd:string">Enter your Region</value>
+        <value xsi:type="xsd:string">Enter your AWS Region</value>
     </values>
     <values>
         <field>Secret_Key__c</field>
