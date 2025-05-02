@@ -1,0 +1,91 @@
+<template>
+    <lightning-card title="AWS S3 File Manager" class="file-manager-container">
+        <!-- Loading Spinner -->
+        <template if:true={isLoading}>
+            <div class="slds-spinner_container">
+                <div class="slds-spinner slds-spinner_medium" role="alert">
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </template>
+
+                <!-- File Upload Section -->
+                <div class="slds-p-around_medium file-upload-section">
+                    <div class="left-section">
+                        <input type="file" multiple onchange={handleFileSelection} class="file-input" />
+                        <lightning-button label="Upload" onclick={uploadFiles} class="upload-button"></lightning-button>
+                        <lightning-button label="Create Folder" onclick={createFolder} class="create-folder-button"></lightning-button>
+                    </div>
+                </div>
+       
+        <!-- Action Buttons -->
+        <div class="slds-p-around_medium action-buttons">
+            <lightning-button-icon icon-name="utility:back" alternative-text="Back" onclick={navigateBack} class="slds-button_icon"></lightning-button-icon>
+            <lightning-button-icon icon-name="utility:delete" alternative-text="Delete" onclick={handleDelete} class="slds-button_icon"></lightning-button-icon>
+            <lightning-button-icon icon-name="utility:download" alternative-text="Download" onclick={handleDownload} class="slds-button_icon"></lightning-button-icon>
+        </div>
+       
+        <!-- Current Path Navigation -->
+        <div class="slds-p-around_medium current-path">
+            <template for:each={breadcrumb} for:item="folder" for:index="index">
+                <span key={folder} class="slds-m-right_x-small">
+                    <a href="javascript:void(0);" onclick={navigateToFolder} data-index={index}>{folder}</a> /
+                </span>
+            </template>
+        </div>
+       
+        <!-- File List -->
+        <div class="file-list-container">
+            <ul class="file-list">
+                <template for:each={fileList} for:item="file">
+                    <li key={file.Key} class="file-item" data-selected={file.selected}>
+                        <input type="checkbox" checked={file.selected} data-key={file.Key} onchange={handleSelectFile} class="file-checkbox" />
+                        <lightning-icon icon-name={file.icon} alternative-text="File Icon" size="small" class="file-icon"></lightning-icon>
+                        <span class="file-name" onclick={handleFileClick} data-key={file.Key}>{file.name}</span>
+                        <div class="file-actions">
+                            <template if:false={file.isFolder}>
+                                <lightning-button-icon
+                                    icon-name="utility:preview"
+                                    alternative-text="Preview"
+                                    onclick={handlePreview}
+                                    data-key={file.Key}
+                                    class="slds-button_icon action-icon">
+                                </lightning-button-icon>
+                            </template>
+                            <lightning-button-icon
+                                icon-name="utility:delete"
+                                alternative-text="Delete"
+                                onclick={handleSingleDelete}
+                                data-key={file.Key}
+                                class="slds-button_icon action-icon">
+                            </lightning-button-icon>
+                        </div>
+                    </li>
+                </template>
+            </ul>
+        </div>
+       
+        <!-- Preview Modal -->
+        <template if:true={showPreviewModal}>
+            <div class="preview-modal">
+                <div class="preview-modal-content">
+                    <template if:true={isVideoFile}>
+                        <video controls class="preview-media">
+                            <source src={previewUrl} type={videoType}>
+                            Your browser does not support the video tag.
+                        </video>
+                    </template>
+                    <template if:true={isImageFile}>
+                        <img src={previewUrl} alt="Preview" class="preview-media" />
+                    </template>
+                    <template if:true={isPdfFile}>
+                        <iframe src={previewUrl} class="preview-iframe"></iframe>
+                    </template>
+                    <lightning-button label="Close" onclick={closePreviewModal} class="close-button"></lightning-button>
+                </div>
+            </div>
+        </template>
+    </lightning-card>
+</template>
